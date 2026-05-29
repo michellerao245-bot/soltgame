@@ -16,6 +16,7 @@ import PokerBaz from './components/games/PokerBaz';
 import SoltCrash from './components/games/SoltCrash';
 import SoltSlots from './components/games/SoltSlots';
 import WheelOfFortune from './components/games/WheelOfFortune';
+import LegalSection from "./pages/LegalSection";
 function App() {
   return (
     <Web3Provider>
@@ -47,7 +48,10 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
+                
               </Routes>
+              <LegalSection />
+
             </div>
           </main>
           
