@@ -10,7 +10,7 @@ import CyberDice from './components/games/CyberDice';
 import Dream11 from './components/games/Dream11';
 import EmpireBattle from './components/games/EmpireBattle';
 import GhostHunter from './components/games/GhostHunter';
-import Moonjump from './components/games/TempGame';
+import Moonjump from './components/games/MoonJump';
 import NeoRoulette from './components/games/NeoRoulette';
 import PokerBaz from './components/games/PokerBaz';
 import SoltCrash from './components/games/SoltCrash';
