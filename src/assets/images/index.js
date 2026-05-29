@@ -9,7 +9,7 @@ export const SoltSlots =
 export const SoltCrash =
   'https://via.placeholder.com/400x250';
 
-export const Moonjump =
+export const MoonJump =
   'https://via.placeholder.com/400x250';
 
 export const GhostHunter =

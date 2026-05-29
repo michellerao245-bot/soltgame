@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useWallet, useAppBalance } from '../../hooks';
 import { gameService } from '../../services';
 
-export const Moonjump = () => {
+export const MoonJump = () => {
   const { isConnected } = useWallet();
   const { balance } = useAppBalance();
   const [jumping, setJumping] = useState(false);
@@ -15,7 +15,7 @@ export const Moonjump = () => {
     try {
       // API call to start the jump sequence
       const response = await gameService.placeBet({ 
-        game: 'Moonjump', 
+        game: 'MoonJump', 
         amount: 20 
       });
       // Assuming response contains the final multiplier
@@ -27,7 +27,7 @@ export const Moonjump = () => {
     }
   };
 
-  if (!isConnected) return <div className="p-6 text-center">Connect wallet to Moonjump!</div>;
+  if (!isConnected) return <div className="p-6 text-center">Connect wallet to MoonJump!</div>;
 
   return (
     <div className="p-6 bg-slate-950 rounded-xl border border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.3)]">

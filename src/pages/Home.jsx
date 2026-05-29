@@ -21,8 +21,8 @@ export const Home = () => {
       image: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800',
     },
     {
-      name: 'Moonjump',
-      slug: 'moonjump',
+      name: 'MoonJump',
+      slug: 'MoonJump',
       image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800',
     },
     {

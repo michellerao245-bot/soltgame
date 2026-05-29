@@ -34,7 +34,7 @@ function App() {
                 <Route path="/game/neoroulette" element={<NeoRoulette />} />
 <Route path="/game/soltslots" element={<SoltSlots />} />
 <Route path="/game/soltcrash" element={<SoltCrash />} />
-<Route path="/game/moonjump" element={<Moonjump />} />
+<Route path="/game/moonJump" element={<MoonJump />} />
 <Route path="/game/ghosthunter" element={<GhostHunter />} />
 <Route path="/game/pokerbaz" element={<PokerBaz />} />
 <Route path="/game/cyberdice" element={<CyberDice />} />
