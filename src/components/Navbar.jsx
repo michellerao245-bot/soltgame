@@ -41,7 +41,7 @@ export const Navbar = () => {
 
         {/* Left */}
         <button
-          onClick={() => window.location.href = 'https://solthub.com'}
+          onClick={() => window.location.href = 'https://solthub.vercel.app/'}
           className="text-cyan-400 hover:text-white transition font-medium"
         >
           ← Back to SoltHub
