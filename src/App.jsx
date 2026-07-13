@@ -15,14 +15,13 @@ import Dream11 from './components/games/Dream11';
 import EmpireBattle from './components/games/EmpireBattle';
 import GhostHunter from './components/games/GhostHunter';
 import MoonJump from './components/games/MoonJump';
-import NeoRoulette from './components/games/NeoRoulette';
+import NeoRoulette from './components/games/NeoRoulette';  // 👈 ab props nahi lega
 import PokerBaz from './components/games/PokerBaz';
 import SoltCrash from './components/games/SoltCrash';
 import SoltSlots from './components/games/SoltSlots';
 import WheelOfFortune from './components/games/WheelOfFortune';
 
 function AppContent() {
-  // useBalance ka use yahan safe hai kyunki ye BalanceProvider ke andar hai
   const { balance, updateBalance } = useBalance();
 
   return (
@@ -32,7 +31,10 @@ function AppContent() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-gray-950 to-gray-950 -z-10" />
         <div className="container mx-auto px-4 py-8">
           <Routes>
-            <Route path="/game/neoroulette" element={<NeoRoulette currentBalance={balance} onBalanceUpdate={updateBalance} />} />
+            {/* ✅ NeoRoulette – ab props nahi pass kar rahe */}
+            <Route path="/game/neoroulette" element={<NeoRoulette />} />
+
+            {/* Baaki games – props pass hote rahenge */}
             <Route path="/game/soltslots" element={<SoltSlots currentBalance={balance} onBalanceUpdate={updateBalance} />} />
             <Route path="/game/soltcrash" element={<SoltCrash currentBalance={balance} onBalanceUpdate={updateBalance} />} />
             <Route path="/game/moonJump" element={<MoonJump currentBalance={balance} onBalanceUpdate={updateBalance} />} />

@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
+import { useBalance } from '../../context/BalanceContext'; // 👈 path adjust karo
 
-const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
+const NeonRoulette = () => {
+  // Direct context se balance aur update function le rahe hain
+  const { balance, updateBalance } = useBalance();
   const [bet, setBet] = useState(10);
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [status, setStatus] = useState('PLACE YOUR BET');
@@ -14,7 +17,7 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
   const flashTimeoutRef = useRef(null);
   const spinTimeoutRef = useRef(null);
 
-  // Audio engine
+  // ─── Audio Engine ───
   const initAudio = useCallback(() => {
     if (!audioCtxRef.current) {
       audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
@@ -104,6 +107,7 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
     playTone(800, 0.04, 'sine', 0.05);
   }, [playTone]);
 
+  // ─── Confetti ───
   const fireConfettiBlast = useCallback(() => {
     const colors = ['#fbbf24', '#f59e0b', '#ef4444', '#ec4899', '#8b5cf6', '#3b82f6', '#22d3ee', '#34d399', '#f97316'];
     const defaults = { origin: { y: 0.55 }, startVelocity: 35, spread: 70, ticks: 120, gravity: 0.8, colors };
@@ -121,6 +125,7 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
     }, 400);
   }, []);
 
+  // ─── Game Data ───
   const gameData = [
     { color: '#ef4444', val: 0 }, { color: '#f97316', val: 3 }, { color: '#f59e0b', val: 6 },
     { color: '#eab308', val: 9 }, { color: '#84cc16', val: 12 }, { color: '#22c55e', val: 15 },
@@ -130,9 +135,10 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
 
   const getPayout = (amt) => (amt === 10 ? 10 : amt === 20 ? 12 : 15);
 
+  // ─── Spin ───
   const spin = useCallback(() => {
     if (isSpinning || status !== 'PLACE YOUR BET') return;
-    if (currentBalance < bet) {
+    if (balance < bet) {
       alert('💰 Balance kam hai!');
       return;
     }
@@ -141,7 +147,7 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
     playClickSound();
     playSpinSound();
 
-    onBalanceUpdate(-bet);
+    updateBalance(-bet);
     setIsSpinning(true);
     setStatus('SPINNING...');
 
@@ -170,7 +176,7 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
         if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
         flashTimeoutRef.current = setTimeout(() => setShowFlash(false), 400);
         fireConfettiBlast();
-        onBalanceUpdate(winAmount);
+        updateBalance(winAmount);
       } else {
         setStatus('💀 LOSE 💀');
         playLoseSound();
@@ -186,8 +192,9 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
         }
       }, 1800);
     }, 4200);
-  }, [isSpinning, status, currentBalance, bet, selectedNumber, onBalanceUpdate, unlockAudio, playClickSound, playSpinSound, playWinSound, playLoseSound, fireConfettiBlast, gameData]);
+  }, [isSpinning, status, balance, bet, selectedNumber, updateBalance, unlockAudio, playClickSound, playSpinSound, playWinSound, playLoseSound, fireConfettiBlast, gameData]);
 
+  // ─── Cleanup ───
   useEffect(() => {
     return () => {
       if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
@@ -198,10 +205,13 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
     };
   }, []);
 
+  // ─── Render ───
   return (
     <div className="flex flex-col items-center w-full max-w-4xl mx-auto p-4" onClick={unlockAudio}>
+      {/* Flash Overlay */}
       <div className={`fixed inset-0 pointer-events-none z-50 transition-opacity duration-100 ${showFlash ? 'opacity-100' : 'opacity-0'}`} style={{ background: 'rgba(255, 215, 0, 0.15)' }} />
 
+      {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <div className="text-4xl animate-bounce">🎰</div>
         <h1 className="text-4xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.3)]">
@@ -210,8 +220,9 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
       </div>
 
       <div className="flex gap-4 w-full">
+        {/* Main Game Box */}
         <div className="flex-grow flex flex-col items-center p-8 rounded-3xl border-4 border-yellow-500 bg-zinc-950 shadow-[0_0_50px_rgba(234,179,8,0.3)]">
-          <div className="text-2xl font-black text-yellow-400 mb-4 drop-shadow-md">BALANCE: {currentBalance}</div>
+          {/* ✅ Balance display hata diya – ab top-right wale balance se kaam chalega */}
 
           <div className="flex gap-2 mb-2">
             {[10, 20, 50].map((amt) => (
@@ -290,6 +301,7 @@ const NeonRoulette = ({ currentBalance = 0, onBalanceUpdate }) => {
           </button>
         </div>
 
+        {/* History */}
         <div className="w-16 flex flex-col gap-2 p-2 rounded-2xl border-2 border-zinc-700 bg-zinc-900 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
           <div className="text-[10px] text-zinc-500 text-center font-black uppercase">Recent</div>
           {history.map((res, i) => (
